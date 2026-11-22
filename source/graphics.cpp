@@ -865,7 +865,9 @@ bool GraphicManager::loadSpriteMetadata(const FileName& datafile, wxString& erro
 		has_frame_groups = dat_format >= DAT_FORMAT_1057;
 	}
 
-	uint16_t id = minID;
+	// uint32_t (Artemis 21/11/2026): item_count + creature_count passa de 65535 quando ha outfits altos (40001+);
+	// com uint16_t o laco dava a volta e nunca terminava, por isso os outfits altos eram cortados do DAT.
+	uint32_t id = minID;
 	// loop through all ItemDatabase until we reach the end of file
 	while (id <= maxID) {
 		auto spritePrototype = std::make_unique<GameSprite>();
